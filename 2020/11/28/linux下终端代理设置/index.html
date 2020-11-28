@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>linux下终端代理设置 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="linux系统设置中代理无法作用于终端中运行的程序，因此需要一个代理链工具来完成转发。Proxychains 是linux下一个代理链工具，只要在配置文件中写入代理服务器信息，在希望走代理的命令前加入proxychains，其后的指令就会自动从设置的代理运行。 工具下载​    sudo apt install proxychains 工具配置proxychains所有配置均在**&#x2F;etc&#x2F;pro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下终端代理设置">
+<meta property="og:url" content="http://example.com/2020/11/28/linux%E4%B8%8B%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="linux系统设置中代理无法作用于终端中运行的程序，因此需要一个代理链工具来完成转发。Proxychains 是linux下一个代理链工具，只要在配置文件中写入代理服务器信息，在希望走代理的命令前加入proxychains，其后的指令就会自动从设置的代理运行。 工具下载​    sudo apt install proxychains 工具配置proxychains所有配置均在**&#x2F;etc&#x2F;pro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/home/zxw2600/web/blog/source/_posts/linux%E4%B8%8B%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE.assets/image-20201128133549054.png">
+<meta property="article:published_time" content="2020-11-28T03:30:29.000Z">
+<meta property="article:modified_time" content="2020-11-28T05:44:06.628Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="linux proxychains zsh plugin socks5">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/home/zxw2600/web/blog/source/_posts/linux%E4%B8%8B%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE.assets/image-20201128133549054.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-linux下终端代理设置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/28/linux%E4%B8%8B%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/" class="article-date">
+  <time datetime="2020-11-28T03:30:29.000Z" itemprop="datePublished">2020-11-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux下终端代理设置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>linux系统设置中代理无法作用于终端中运行的程序，因此需要一个代理链工具来完成转发。Proxychains 是linux下一个代理链工具，只要在配置文件中写入代理服务器信息，在希望走代理的命令前加入proxychains，其后的指令就会自动从设置的代理运行。</p>
+<h2 id="工具下载"><a href="#工具下载" class="headerlink" title="工具下载"></a>工具下载</h2><p>​    sudo apt install proxychains</p>
+<h2 id="工具配置"><a href="#工具配置" class="headerlink" title="工具配置"></a>工具配置</h2><p>proxychains所有配置均在**/etc/proxychains.conf **中</p>
+<p>vim /etc/proxychains.conf </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> proxychains.conf  VER 3.1</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#        HTTP, SOCKS4, SOCKS5 tunneling proxifier with DNS.</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span>      </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> The option below identifies how the ProxyList is treated.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> only one option should be uncommented at time,</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> otherwise the last appearing option will be accepted</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash">dynamic_chain</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># Dynamic - Each connection will be done via chained proxies</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> all proxies chained <span class="keyword">in</span> the order as they appear <span class="keyword">in</span> the list</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> at least one proxy must be online to play <span class="keyword">in</span> chain</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> (dead proxies are skipped)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> otherwise EINTR is returned to the app</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#strict_chain</span></span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># Strict - Each connection will be done via chained proxies</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> all proxies chained <span class="keyword">in</span> the order as they appear <span class="keyword">in</span> the list</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> all proxies must be online to play <span class="keyword">in</span> chain</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> otherwise EINTR is returned to the app</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#random_chain</span></span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># Random - Each connection will be done via random proxy</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> (or proxy chain, see  chain_len) from the list.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> this option is good to <span class="built_in">test</span> your IDS :)</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>第一段为代理链接选择的方式，Proxychains支持同时配置多个代理，在使用是会自主。此处有三个选项：严格代理，随机代理，动态代理;一般选择动态。</p>
+<p>在文件末尾有代理链接的设置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ProxyList format</span></span><br><span class="line"><span class="meta">#</span><span class="bash">       <span class="built_in">type</span>  host  port [user pass]</span></span><br><span class="line"><span class="meta">#</span><span class="bash">       (values separated by <span class="string">&#x27;tab&#x27;</span> or <span class="string">&#x27;blank&#x27;</span>)</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">        Examples:</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#               socks5  192.168.67.78   1080    lamer   secret</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">               http    192.168.89.3    8080    justu   hidden</span></span><br><span class="line"><span class="meta">#</span><span class="bash">               socks4  192.168.1.49    1080</span></span><br><span class="line"><span class="meta">#</span><span class="bash">               http    192.168.39.93   8080</span>    </span><br><span class="line"><span class="meta">#</span><span class="bash"> </span>              </span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#       proxy types: http, socks4, socks5</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">        ( auth types supported: <span class="string">&quot;basic&quot;</span>-http  <span class="string">&quot;user/pass&quot;</span>-socks )</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash">[ProxyList]</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> add proxy here ...</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> meanwile</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> defaults <span class="built_in">set</span> to <span class="string">&quot;tor&quot;</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">socks5 192.168.50.88 23456</span> </span><br><span class="line">socks5 127.0.0.1 1089</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>格式为</p>
+<p>协议 地址 端口</p>
+<p>这些信息可以在所使用的代理软件中找到</p>
+<p><img src="/home/zxw2600/web/blog/source/_posts/linux%E4%B8%8B%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE.assets/image-20201128133549054.png" alt="image-20201128133549054"></p>
+<p>以QV2ray为例，设置中包含了http/socks5两种协议的端口，选择其中一种即可。</p>
+<h2 id="可能问题"><a href="#可能问题" class="headerlink" title="可能问题"></a>可能问题</h2><p>引用地址：<a target="_blank" rel="noopener" href="https://parrotsec-cn.org/t/proxychains/3012">https://parrotsec-cn.org/t/proxychains/3012</a></p>
+<p>本来以为很好解决，首先修改的 /usr/bin/proxychains<br>奈何这样做之后，只有用 sudo proxychains 的时候才可以 curl <a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> ，普通用户依旧是提示上面那个错误<br>重现错误<br>今天测试一个公司网站的时候，用脚本去扫xss没想到遇到一个脸书的鬼链接，本着扶墙的原则，那就扶墙扫，之后就出现了上述错误，但是我已经修改了 /usr/bin/proxychains 为啥还会报错<br>遗留已久<br>这个小问题恶心我好久了，然后我就直接去谷歌了，认真查了之后，果然发现了，不能只修改 /usr/bin/proxychains ，还得修改 /usr/lib/proxychains3/proxyresolv 才行</p>
+<p>彻底解决<br>修改 /usr/bin/proxychains<br>sudo vi /usr/bin/proxychains<br>export LD_PRELOAD=libproxychains.so.3<br>改为<br>export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libproxychains.so.3<br>修改 /usr/lib/proxychains3/proxyresolv<br>sudo vi /usr/lib/proxychains3/proxyresolv<br>export LD_PRELOAD=libproxychains.so.3<br>改为<br>export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libproxychains.so.3<br>之后普通用户再使用 Proxychains 舒服得一皮</p>
+<h2 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h2><h3 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h3><p>为方便使用，可以给proxychains加一条alias，毕竟敲这么长单词很不爽</p>
+<p>打开.zshrc(或者.bashrc)，在文件末添加</p>
+<p>​    alias pc=”proxychains”</p>
+<p>以后在使用时只需要在文件开头添加pc 即可</p>
+<h3 id="zsh插件"><a href="#zsh插件" class="headerlink" title="zsh插件"></a>zsh插件</h3><p>为方便使用，编写了一个简单的插件，可以快速向文件头补充proxychains指令。</p>
+<p>项目地址： <a target="_blank" rel="noopener" href="https://github.com/ZXW2001/proxychains">https://github.com/ZXW2001/proxychains</a></p>
+<p>在安装zsh后按教程安装插件。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/11/28/linux%E4%B8%8B%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/" data-id="cki1a1mad0000hlj8f0xebwsa" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-proxychains-zsh-plugin-socks5/" rel="tag">linux proxychains zsh plugin socks5</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-proxychains-zsh-plugin-socks5/" rel="tag">linux proxychains zsh plugin socks5</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/linux-proxychains-zsh-plugin-socks5/" style="font-size: 10px;">linux proxychains zsh plugin socks5</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/28/linux%E4%B8%8B%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/">linux下终端代理设置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
